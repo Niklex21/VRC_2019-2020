@@ -4,6 +4,8 @@
 #include "main.h"
 
 #include "enums/controls.hpp"
+#include "enums/gearset.hpp"
+#include "enums/encoder_units.hpp"
 
 #include <vector>
 
@@ -21,18 +23,22 @@ class ExtendedController : public pros::Controller {
   std::vector<DigitalControls> getPressedDigital(void);
 };
 
-class Motor {
+class ExtendedMotor : public pros::Motor{
 public:
-  Motor(void);
+  ExtendedMotor(int port, Gearset gearset, bool reversed, EncoderUnits enc_un);
 };
 
 class Robot {
   public:
     Robot(void);
 
-    void handleControls(std::vector <DigitalControls> digitalControls){
-
-    }
+    /**
+     * A handler function to handle simultaneous press of digital controls
+     * @param digitalControls A vector of @type DigitalControls enum, includes
+     * all the digital controls that are currently pressed and their states
+     * (new_press or on hold)
+     */
+    void handleControls(std::vector <DigitalControls> digitalControls);
 };
 }
 

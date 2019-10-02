@@ -1,7 +1,7 @@
 #ifndef _CONTROLS_ENUM_
 #define _CONTROLS_ENUM_
 
-enum DigitalControls {
+enum class DigitalControls {
   right,
   down,
   left,
@@ -28,7 +28,7 @@ enum DigitalControls {
   l2_np
 };
 
-enum AnalogControls {
+enum class AnalogControls {
   joystick_left_x,
   joystick_left_y,
   joystick_right_x,

@@ -1,6 +1,6 @@
 #include "main.h"
 
-#include "extended_pros/controller.hpp"
+#include "extended_pros/extended_pros.hpp"
 
 std::vector<DigitalControls> extended_pros::ExtendedController::getPressedDigital(void){
   std::vector <DigitalControls> controlsActive = {};
