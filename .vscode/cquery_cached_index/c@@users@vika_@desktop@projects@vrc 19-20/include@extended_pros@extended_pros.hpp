@@ -62,13 +62,13 @@ class DriveChain {
     void moveLeftSide(int speed);
     void moveRightSide(int speed);
   private:
-    ExtendedMotor leftBack = ExtendedMotor(1, Gearset::green_18, true,
+    ExtendedMotor leftBack = ExtendedMotor(1, Gearset::green_18, false,
                                            EncoderUnits::rotations);
-    ExtendedMotor rightBack = ExtendedMotor(2, Gearset::green_18, false,
+    ExtendedMotor rightBack = ExtendedMotor(2, Gearset::green_18, true,
                                           EncoderUnits::rotations);
-    ExtendedMotor leftFront = ExtendedMotor(3, Gearset::green_18, true,
+    ExtendedMotor leftFront = ExtendedMotor(3, Gearset::green_18, false,
                                            EncoderUnits::rotations);
-    ExtendedMotor rightFront = ExtendedMotor(4, Gearset::green_18, false,
+    ExtendedMotor rightFront = ExtendedMotor(4, Gearset::green_18, true,
                                            EncoderUnits::rotations);
 };
 
