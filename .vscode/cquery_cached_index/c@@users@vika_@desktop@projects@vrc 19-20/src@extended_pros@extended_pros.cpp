@@ -2,7 +2,10 @@
 
 #include "extended_pros/extended_pros.hpp"
 
-std::vector<DigitalControls> extended_pros::ExtendedController::getPressedDigital(void){
+using namespace extended_pros;
+
+// --------- extended_pros::ExtendedController::functions -------------- //
+std::vector<DigitalControls> ExtendedController::getPressedDigital(void){
   std::vector <DigitalControls> controlsActive = {};
 
   if (this->get_digital(DIGITAL_X))
@@ -58,4 +61,57 @@ std::vector<DigitalControls> extended_pros::ExtendedController::getPressedDigita
     controlsActive.push_back(DigitalControls::r2_np);
 
   return controlsActive;
+}
+
+Analog ExtendedController::getAnalog(void){
+  Analog analogValues;
+  analogValues.left = {this->get_analog(ANALOG_LEFT_X),
+                       this->get_analog(ANALOG_LEFT_Y)};
+  analogValues.right = {this->get_analog(ANALOG_RIGHT_X),
+                        this->get_analog(ANALOG_RIGHT_Y)};
+  return analogValues;
+}
+
+// --------- extended_pros::ExtendedMotor::functions ------------ //
+ExtendedMotor& ExtendedMotor::operator = (const ExtendedMotor& second){
+  this->port = second.port;
+  this->gearset = second.gearset;
+  this->reversed = second.reversed;
+  this->encoderUnits = second.encoderUnits;
+  return *this;
+}
+// --------- extended_pros::DriveChain::functions ---------- //
+DriveChain& DriveChain::operator = (const DriveChain& second){
+  this->leftBack = second.leftBack;
+  this->rightBack = second.rightBack;
+  this->leftFront = second.leftFront;
+  this->rightFront = second.rightFront;
+  return *this;
+}
+
+void DriveChain::moveLeftSide(int speed){
+  this->leftBack.move(speed);
+  this->leftFront.move(speed);
+}
+
+void DriveChain::moveRightSide(int speed){
+  this->rightBack.move(speed);
+  this->rightFront.move(speed);
+}
+
+void DriveChain::move(int speed){
+  this->moveLeftSide(speed);
+  this->moveRightSide(speed);
+}
+// --------- extended_pros::Robot::functions -------- //
+void Robot::handleControls(std::vector<DigitalControls> digitalControls,
+                           Analog joysticks){
+  this->tankControls(joysticks.left.y, joysticks.right.y);
+
+  // Handle digital controls as much as one wants
+}
+
+void Robot::tankControls(int leftJoystickY, int rightJoystickY){
+  this->driveChain.moveLeftSide(leftJoystickY);
+  this->driveChain.moveRightSide(rightJoystickY);
 }

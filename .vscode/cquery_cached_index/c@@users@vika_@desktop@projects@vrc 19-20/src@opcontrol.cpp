@@ -1,7 +1,7 @@
 #include "main.h"
 
 #include "enums/controls.hpp"
-#include "extended_pros/controller.hpp"
+#include "extended_pros/extended_pros.hpp"
 
 #include <vector>
 
@@ -20,9 +20,10 @@
  */
 void opcontrol() {
 	extended_pros::ExtendedController master(pros::E_CONTROLLER_MASTER);
-	extended_pros::Robot robot;
+	extended_pros::Robot robot = extended_pros::Robot();
 
 	while (master.is_connected()) {
-		robot.handleControls(master.getPressedDigital());
+		robot.handleControls(master.getPressedDigital(),
+												 master.getAnalog());
 	}
 }
