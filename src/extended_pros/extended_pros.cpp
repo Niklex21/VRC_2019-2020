@@ -80,6 +80,7 @@ ExtendedMotor& ExtendedMotor::operator = (const ExtendedMotor& second){
   this->encoderUnits = second.encoderUnits;
   return *this;
 }
+
 // --------- extended_pros::DriveChain::functions ---------- //
 DriveChain& DriveChain::operator = (const DriveChain& second){
   this->leftBack = second.leftBack;
@@ -103,12 +104,71 @@ void DriveChain::move(int speed){
   this->moveLeftSide(speed);
   this->moveRightSide(speed);
 }
+
+// --------- extended_pros::Stacker::functions ------ //
+void Stacker::stack(){
+  // Stack code using sensors?
+  this->stackerCond = StackerCondition::stacking;
+}
+
+void Stacker::retract(){
+  // Retract code using sensors
+  this->stackerCond = StackerCondition::retracted;
+}
+
+void Stacker::switchStacker(){
+  if (this->stackerCond == StackerCondition::retracted){
+    this->stack();
+  }
+  else {
+    this->retract();
+  }
+}
+
+// --------- extended_pros::Arm::functions ---------- //
+void Arm::up(){
+  // Code for up
+}
+
+void Arm::down(){
+  // Code for down
+}
+
+void Arm::intake(){
+  // Code for intake
+}
+
+void Arm::outtake(){
+  // Code for outtake
+}
+
 // --------- extended_pros::Robot::functions -------- //
 void Robot::handleControls(std::vector<DigitalControls> digitalControls,
                            Analog joysticks){
   this->tankControls(joysticks.left.y, joysticks.right.y);
 
-  // Handle digital controls as much as one wants
+  // R2 is for arm-up, L2 is for arm-down
+  // Both are hold
+  if (isInVector(digitalControls, DigitalControls::r2)){
+    this->arm.up();
+  }
+  else if (isInVector(digitalControls, DigitalControls::l2)){
+    this->arm.down();
+  }
+
+  // R1 is for intake, L1 is for "outtake"
+  // Both are hold
+  if (isInVector(digitalControls, DigitalControls::r1)){
+    this->arm.intake();
+  }
+  else if (isInVector(digitalControls, DigitalControls::l1)){
+    this->arm.outtake();
+  }
+
+  // New B press to stack/retract stacker (trigger)
+  if (isInVector(digitalControls, DigitalControls::b_np)){
+    this->stacker.switchStacker();
+  }
 }
 
 void Robot::tankControls(int leftJoystickY, int rightJoystickY){

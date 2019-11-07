@@ -6,10 +6,18 @@
 #include "enums/controls.hpp"
 #include "enums/gearset.hpp"
 #include "enums/encoder_units.hpp"
+#include "enums/StackerCondition.hpp"
 
 #include <vector>
+#include <algorithm>
 
 namespace extended_pros {
+
+template <typename T>
+bool isInVector(std::vector<T>& vec, T elem){
+  return std::find(vec.begin(), vec.end(), elem) != vec.end();
+}
+
 struct Joystick {
   int x;
   int y;
@@ -72,6 +80,34 @@ class DriveChain {
                                            EncoderUnits::rotations);
 };
 
+class Stacker {
+  public:
+    Stacker(void);
+
+    void stack();
+    void retract();
+    void switchStacker();
+  private:
+    ExtendedMotor stackerMotor = ExtendedMotor(5, Gearset::red_36, true,
+                                              EncoderUnits::rotations);
+    StackerCondition stackerCond = StackerCondition::retracted;
+};
+
+class Arm {
+  public:
+    Arm(void);
+
+    void up();
+    void down();
+    void intake();
+    void outtake();
+  private:
+    ExtendedMotor armMotorLeft = ExtendedMotor(6, Gearset::green_18, true,
+                                              EncoderUnits::rotations);
+    ExtendedMotor armMotorRight = ExtendedMotor(7, Gearset::green_18, true,
+                                              EncoderUnits::rotations);
+};
+
 class Robot {
   public:
     Robot(void){};
@@ -85,9 +121,10 @@ class Robot {
     void handleControls(std::vector <DigitalControls> digitalControls,
                         Analog joysticks);
     void tankControls(int leftJoystickY, int rightJoystickY);
-    // Setter methods
   private:
     DriveChain driveChain = DriveChain();
+    Stacker stacker = Stacker();
+    Arm arm = Arm();
 };
 }
 
