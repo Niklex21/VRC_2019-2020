@@ -28,11 +28,46 @@
             "-fdiagnostics-color",
             "--std=gnu++17",
             "-o",
-            "C:/Users/vika_/AppData/Local/Temp/tmpbk8mdb6b/opcontrol.cpp.o",
-            "src\\opcontrol.cpp"
+            "C:/Users/vika_/AppData/Local/Temp/tmp_fuzl4no/autonomous.cpp.o",
+            "src\\autonomous.cpp"
         ],
         "directory": "C:\\Users\\vika_\\Desktop\\Projects\\VRC 19-20",
-        "file": "src\\opcontrol.cpp"
+        "file": "src\\autonomous.cpp"
+    },
+    {
+        "arguments": [
+            "clang++",
+            "-c",
+            "-target",
+            "armv7ar-none-none-eabi",
+            "-fno-ms-extensions",
+            "-fno-ms-compatibility",
+            "-fno-delayed-template-parsing",
+            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1",
+            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1/arm-none-eabi/thumb/v7-ar/fpv3/softfp",
+            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1/backward",
+            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/include",
+            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/include-fixed",
+            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include",
+            "-iquote./include",
+            "-iquote./include/./",
+            "-mcpu=cortex-a9",
+            "-mfpu=neon-fp16",
+            "-mfloat-abi=softfp",
+            "-D_POSIX_THREADS",
+            "-D_UNIX98_THREAD_MUTEX_ATTRIBUTES",
+            "-Os",
+            "-funwind-tables",
+            "-ffunction-sections",
+            "-fdata-sections",
+            "-fdiagnostics-color",
+            "--std=gnu++17",
+            "-o",
+            "C:/Users/vika_/AppData/Local/Temp/tmp_fuzl4no/initialize.cpp.o",
+            "src\\initialize.cpp"
+        ],
+        "directory": "C:\\Users\\vika_\\Desktop\\Projects\\VRC 19-20",
+        "file": "src\\initialize.cpp"
     },
     {
         "arguments": [
@@ -63,7 +98,7 @@
             "-fdiagnostics-color",
             "--std=gnu++17",
             "-o",
-            "C:/Users/vika_/AppData/Local/Temp/tmpbk8mdb6b/extended_pros/extended_pros.cpp.o",
+            "C:/Users/vika_/AppData/Local/Temp/tmp_fuzl4no/extended_pros/extended_pros.cpp.o",
             "src\\extended_pros\\extended_pros.cpp"
         ],
         "directory": "C:\\Users\\vika_\\Desktop\\Projects\\VRC 19-20",
@@ -85,7 +120,7 @@
             "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/include-fixed",
             "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include",
             "-iquote./include",
-            "-iquote./include/./",
+            "-iquote./include/extended_pros/",
             "-mcpu=cortex-a9",
             "-mfpu=neon-fp16",
             "-mfloat-abi=softfp",
@@ -98,11 +133,81 @@
             "-fdiagnostics-color",
             "--std=gnu++17",
             "-o",
-            "C:/Users/vika_/AppData/Local/Temp/tmpbk8mdb6b/initialize.cpp.o",
-            "src\\initialize.cpp"
+            "C:/Users/vika_/AppData/Local/Temp/tmp_fuzl4no/extended_pros/ExtendedMotor.cpp.o",
+            "src\\extended_pros\\ExtendedMotor.cpp"
         ],
         "directory": "C:\\Users\\vika_\\Desktop\\Projects\\VRC 19-20",
-        "file": "src\\initialize.cpp"
+        "file": "src\\extended_pros\\ExtendedMotor.cpp"
+    },
+    {
+        "arguments": [
+            "clang++",
+            "-c",
+            "-target",
+            "armv7ar-none-none-eabi",
+            "-fno-ms-extensions",
+            "-fno-ms-compatibility",
+            "-fno-delayed-template-parsing",
+            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1",
+            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1/arm-none-eabi/thumb/v7-ar/fpv3/softfp",
+            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1/backward",
+            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/include",
+            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/include-fixed",
+            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include",
+            "-iquote./include",
+            "-iquote./include/extended_pros/",
+            "-mcpu=cortex-a9",
+            "-mfpu=neon-fp16",
+            "-mfloat-abi=softfp",
+            "-D_POSIX_THREADS",
+            "-D_UNIX98_THREAD_MUTEX_ATTRIBUTES",
+            "-Os",
+            "-funwind-tables",
+            "-ffunction-sections",
+            "-fdata-sections",
+            "-fdiagnostics-color",
+            "--std=gnu++17",
+            "-o",
+            "C:/Users/vika_/AppData/Local/Temp/tmp_fuzl4no/extended_pros/functions.cpp.o",
+            "src\\extended_pros\\functions.cpp"
+        ],
+        "directory": "C:\\Users\\vika_\\Desktop\\Projects\\VRC 19-20",
+        "file": "src\\extended_pros\\functions.cpp"
+    },
+    {
+        "arguments": [
+            "clang++",
+            "-c",
+            "-target",
+            "armv7ar-none-none-eabi",
+            "-fno-ms-extensions",
+            "-fno-ms-compatibility",
+            "-fno-delayed-template-parsing",
+            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1",
+            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1/arm-none-eabi/thumb/v7-ar/fpv3/softfp",
+            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include/c++/7.2.1/backward",
+            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/include",
+            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/include-fixed",
+            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include",
+            "-iquote./include",
+            "-iquote./include/extended_pros/",
+            "-mcpu=cortex-a9",
+            "-mfpu=neon-fp16",
+            "-mfloat-abi=softfp",
+            "-D_POSIX_THREADS",
+            "-D_UNIX98_THREAD_MUTEX_ATTRIBUTES",
+            "-Os",
+            "-funwind-tables",
+            "-ffunction-sections",
+            "-fdata-sections",
+            "-fdiagnostics-color",
+            "--std=gnu++17",
+            "-o",
+            "C:/Users/vika_/AppData/Local/Temp/tmp_fuzl4no/extended_pros/ExtendedController.cpp.o",
+            "src\\extended_pros\\ExtendedController.cpp"
+        ],
+        "directory": "C:\\Users\\vika_\\Desktop\\Projects\\VRC 19-20",
+        "file": "src\\extended_pros\\ExtendedController.cpp"
     },
     {
         "arguments": [
@@ -133,10 +238,10 @@
             "-fdiagnostics-color",
             "--std=gnu++17",
             "-o",
-            "C:/Users/vika_/AppData/Local/Temp/tmpbk8mdb6b/autonomous.cpp.o",
-            "src\\autonomous.cpp"
+            "C:/Users/vika_/AppData/Local/Temp/tmp_fuzl4no/opcontrol.cpp.o",
+            "src\\opcontrol.cpp"
         ],
         "directory": "C:\\Users\\vika_\\Desktop\\Projects\\VRC 19-20",
-        "file": "src\\autonomous.cpp"
+        "file": "src\\opcontrol.cpp"
     }
 ]

@@ -15,11 +15,6 @@ namespace extended_pros {
 
 const int MAXIMUM_SPEED_UN = 127;
 
-template <typename T>
-bool isInVector(std::vector<T>& vec, T elem){
-  return std::find(vec.begin(), vec.end(), elem) != vec.end();
-}
-
 struct Joystick {
   int x;
   int y;
@@ -28,20 +23,6 @@ struct Joystick {
 struct Analog {
   Joystick left;
   Joystick right;
-};
-
-class ExtendedController : public pros::Controller {
-  public:
-  /**
-   * An extended method to pros::Controller that returns all
-   * controls currently in use.
-   *
-   *\return an std::vector of Controls enum of all controls currently in use.
-   */
-  ExtendedController(pros::controller_id_e_t id) : pros::Controller(id){};
-
-  std::vector<DigitalControls> getPressedDigital(void);
-  Analog getAnalog(void);
 };
 
 class ExtendedMotor : public pros::Motor{
