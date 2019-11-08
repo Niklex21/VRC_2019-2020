@@ -108,7 +108,6 @@ void DriveChain::move(int speed){
 void Stacker::stack(){
   // TODO Stack code using sensors
   this->stackerCond = StackerCondition::stacking;
-  std::cerr << "Stacking\n";
   this->stackerMotor.set_brake_mode(MOTOR_BRAKE_HOLD);
   this->stackerMotor.move_absolute(80, 5);
 }
@@ -116,14 +115,12 @@ void Stacker::stack(){
 void Stacker::retract(){
   // TODO Retract code using sensors
   this->stackerCond = StackerCondition::retracted;
-  std::cerr << "Retracting\n";
   this->stackerMotor.set_brake_mode(MOTOR_BRAKE_HOLD);
   this->stackerMotor.move_absolute(0, 5);
 }
 
 void Stacker::switchStacker(){
-  std::cerr << "SwitchStacker is launched\n";
-  if (this->stackerCond == StackerCondition::retracted){
+    if (this->stackerCond == StackerCondition::retracted){
     this->stack();
   }
   else {
@@ -195,7 +192,6 @@ void Robot::handleControls(std::vector<DigitalControls> digitalControls,
 
   // New B press to stack/retract stacker (trigger)
   if (isInVector(digitalControls, DigitalControls::b_np)){
-    std::cerr << "B_NP is pressed\n";
     this->stacker.switchStacker();
   }
 }

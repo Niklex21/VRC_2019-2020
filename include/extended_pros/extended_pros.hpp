@@ -3,9 +3,9 @@
 
 #include "main.h"
 
-#include "enums/controls.hpp"
-#include "enums/gearset.hpp"
-#include "enums/encoder_units.hpp"
+#include "enums/Controls.hpp"
+#include "enums/Gearset.hpp"
+#include "enums/EncoderUnits.hpp"
 #include "enums/StackerCondition.hpp"
 
 #include <vector>
@@ -112,7 +112,7 @@ class Arm {
                                               EncoderUnits::rotations);
     ExtendedMotor intakeMotorRight = ExtendedMotor(7, Gearset::green_18, true,
                                               EncoderUnits::rotations);
-    ExtendedMotor armMotor = ExtendedMotor(2, Gearset::red_36, true,
+    ExtendedMotor armMotor = ExtendedMotor(2, Gearset::red_36, false,
                                               EncoderUnits::rotations);
 };
 

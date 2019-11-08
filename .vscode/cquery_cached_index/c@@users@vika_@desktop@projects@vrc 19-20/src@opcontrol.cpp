@@ -1,6 +1,6 @@
 #include "main.h"
 
-#include "enums/controls.hpp"
+#include "enums/Controls.hpp"
 #include "extended_pros/extended_pros.hpp"
 
 /**

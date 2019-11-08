@@ -28,11 +28,11 @@
             "-fdiagnostics-color",
             "--std=gnu++17",
             "-o",
-            "bin/initialize.cpp.o",
-            "src\\initialize.cpp"
+            "C:/Users/vika_/AppData/Local/Temp/tmpbk8mdb6b/opcontrol.cpp.o",
+            "src\\opcontrol.cpp"
         ],
         "directory": "C:\\Users\\vika_\\Desktop\\Projects\\VRC 19-20",
-        "file": "src\\initialize.cpp"
+        "file": "src\\opcontrol.cpp"
     },
     {
         "arguments": [
@@ -63,7 +63,7 @@
             "-fdiagnostics-color",
             "--std=gnu++17",
             "-o",
-            "bin/extended_pros/extended_pros.cpp.o",
+            "C:/Users/vika_/AppData/Local/Temp/tmpbk8mdb6b/extended_pros/extended_pros.cpp.o",
             "src\\extended_pros\\extended_pros.cpp"
         ],
         "directory": "C:\\Users\\vika_\\Desktop\\Projects\\VRC 19-20",
@@ -98,11 +98,11 @@
             "-fdiagnostics-color",
             "--std=gnu++17",
             "-o",
-            "bin/opcontrol.cpp.o",
-            "src\\opcontrol.cpp"
+            "C:/Users/vika_/AppData/Local/Temp/tmpbk8mdb6b/initialize.cpp.o",
+            "src\\initialize.cpp"
         ],
         "directory": "C:\\Users\\vika_\\Desktop\\Projects\\VRC 19-20",
-        "file": "src\\opcontrol.cpp"
+        "file": "src\\initialize.cpp"
     },
     {
         "arguments": [
@@ -133,7 +133,7 @@
             "-fdiagnostics-color",
             "--std=gnu++17",
             "-o",
-            "bin/autonomous.cpp.o",
+            "C:/Users/vika_/AppData/Local/Temp/tmpbk8mdb6b/autonomous.cpp.o",
             "src\\autonomous.cpp"
         ],
         "directory": "C:\\Users\\vika_\\Desktop\\Projects\\VRC 19-20",
