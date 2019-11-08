@@ -89,10 +89,19 @@ class Stacker {
     void stack();
     void retract();
     void switchStacker();
+
+    void update();
+
+    int getPotentiometerValue();
   private:
+    const int RETRACT_POS = 10;
+    const int STACK_POS = 350;
+
     ExtendedMotor stackerMotor = ExtendedMotor(5, Gearset::red_36, false,
                                               EncoderUnits::degrees);
     StackerCondition stackerCond = StackerCondition::retracted;
+    int targetPos;
+    pros::ADIPotentiometer potentiometer = pros::ADIPotentiometer('A');
 };
 
 class Arm {
@@ -134,6 +143,7 @@ class Robot {
     Stacker stacker = Stacker();
     Arm arm = Arm();
 };
+
 }
 
 #endif

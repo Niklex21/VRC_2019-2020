@@ -108,24 +108,42 @@ void DriveChain::move(int speed){
 void Stacker::stack(){
   // TODO Stack code using sensors
   this->stackerCond = StackerCondition::stacking;
-  this->stackerMotor.set_brake_mode(MOTOR_BRAKE_HOLD);
-  this->stackerMotor.move_absolute(80, 5);
+  this->targetPos = this->STACK_POS;
+  // this->stackerMotor.set_brake_mode(MOTOR_BRAKE_HOLD);
+  // this->stackerMotor.move_absolute(70, 5);
 }
 
 void Stacker::retract(){
   // TODO Retract code using sensors
   this->stackerCond = StackerCondition::retracted;
-  this->stackerMotor.set_brake_mode(MOTOR_BRAKE_HOLD);
-  this->stackerMotor.move_absolute(0, 5);
+  this->targetPos = this->RETRACT_POS;
+  // this->stackerMotor.set_brake_mode(MOTOR_BRAKE_HOLD);
+  // this->stackerMotor.move_absolute(0, 5);
 }
 
 void Stacker::switchStacker(){
-    if (this->stackerCond == StackerCondition::retracted){
+  if (this->stackerCond == StackerCondition::retracted){
     this->stack();
   }
   else {
     this->retract();
   }
+}
+
+void Stacker::update(){
+  if (this->potentiometer.get_value() - this->targetPos > 10){
+    this->stackerMotor.move_velocity(-5);
+  }
+  else if (this->potentiometer.get_value() - this->targetPos < -10){
+    this->stackerMotor.move_velocity(5);
+  }
+  else {
+    this->stackerMotor.move_velocity(0);
+  }
+}
+
+int Stacker::getPotentiometerValue(){
+  return this->potentiometer.get_value();
 }
 
 // --------- extended_pros::Arm::functions ---------- //
@@ -153,7 +171,7 @@ void Arm::outtake(){
 
 void Arm::armStop(){
   this->armMotor.move(0);
-  this->armMotor.set_brake_mode(MOTOR_BRAKE_HOLD);
+    this->armMotor.set_brake_mode(MOTOR_BRAKE_HOLD);
 }
 
 void Arm::intakeStop(){
@@ -161,10 +179,13 @@ void Arm::intakeStop(){
   this->intakeMotorRight.move(0);
 }
 
+
 // --------- extended_pros::Robot::functions -------- //
 void Robot::handleControls(std::vector<DigitalControls> digitalControls,
                            Analog joysticks){
   this->tankControls(joysticks.left.y, joysticks.right.y);
+
+  std::cerr << this->stacker.getPotentiometerValue() << "\n";
 
   // R2 is for arm-up, L2 is for arm-down
   // Both are hold
@@ -178,8 +199,6 @@ void Robot::handleControls(std::vector<DigitalControls> digitalControls,
     this->arm.armStop();
   }
 
-  // R1 is for intake, L1 is for "outtake"
-  // Both are hold
   if (isInVector(digitalControls, DigitalControls::r2)){
     this->arm.intake();
   }
@@ -194,6 +213,9 @@ void Robot::handleControls(std::vector<DigitalControls> digitalControls,
   if (isInVector(digitalControls, DigitalControls::b_np)){
     this->stacker.switchStacker();
   }
+
+  this->stacker.update();
+
 }
 
 void Robot::tankControls(int leftJoystickY, int rightJoystickY){
