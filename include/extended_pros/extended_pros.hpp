@@ -13,6 +13,8 @@
 
 namespace extended_pros {
 
+const int MAXIMUM_SPEED_UN = 127;
+
 template <typename T>
 bool isInVector(std::vector<T>& vec, T elem){
   return std::find(vec.begin(), vec.end(), elem) != vec.end();
@@ -70,41 +72,47 @@ class DriveChain {
     void moveLeftSide(int speed);
     void moveRightSide(int speed);
   private:
-    ExtendedMotor leftBack = ExtendedMotor(1, Gearset::green_18, false,
+    ExtendedMotor leftBack = ExtendedMotor(11, Gearset::green_18, false,
                                            EncoderUnits::rotations);
-    ExtendedMotor rightBack = ExtendedMotor(2, Gearset::green_18, true,
+    ExtendedMotor rightBack = ExtendedMotor(20, Gearset::green_18, true,
                                           EncoderUnits::rotations);
-    ExtendedMotor leftFront = ExtendedMotor(3, Gearset::green_18, false,
+    ExtendedMotor leftFront = ExtendedMotor(1, Gearset::green_18, false,
                                            EncoderUnits::rotations);
-    ExtendedMotor rightFront = ExtendedMotor(4, Gearset::green_18, true,
+    ExtendedMotor rightFront = ExtendedMotor(10, Gearset::green_18, true,
                                            EncoderUnits::rotations);
 };
 
 class Stacker {
   public:
-    Stacker(void);
+    Stacker(void){};
 
     void stack();
     void retract();
     void switchStacker();
   private:
-    ExtendedMotor stackerMotor = ExtendedMotor(5, Gearset::red_36, true,
-                                              EncoderUnits::rotations);
+    ExtendedMotor stackerMotor = ExtendedMotor(5, Gearset::red_36, false,
+                                              EncoderUnits::degrees);
     StackerCondition stackerCond = StackerCondition::retracted;
 };
 
 class Arm {
   public:
-    Arm(void);
+    Arm(void){};
 
     void up();
     void down();
+
     void intake();
     void outtake();
+
+    void armStop();
+    void intakeStop();
   private:
-    ExtendedMotor armMotorLeft = ExtendedMotor(6, Gearset::green_18, true,
+    ExtendedMotor intakeMotorLeft = ExtendedMotor(6, Gearset::green_18, false,
                                               EncoderUnits::rotations);
-    ExtendedMotor armMotorRight = ExtendedMotor(7, Gearset::green_18, true,
+    ExtendedMotor intakeMotorRight = ExtendedMotor(7, Gearset::green_18, true,
+                                              EncoderUnits::rotations);
+    ExtendedMotor armMotor = ExtendedMotor(2, Gearset::red_36, true,
                                               EncoderUnits::rotations);
 };
 
