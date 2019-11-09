@@ -7,6 +7,7 @@
 #include "enums/Gearset.hpp"
 #include "enums/EncoderUnits.hpp"
 #include "enums/StackerCondition.hpp"
+#include "enums/Mode.hpp"
 
 #include <vector>
 #include <algorithm>
@@ -14,6 +15,8 @@
 namespace extended_pros {
 
 const int MAXIMUM_SPEED_UN = 127;
+const double TILE_CONSTANT = 1.8;
+const double ROTATION_CONSTANT = -0.78/90;
 
 template <typename T>
 bool isInVector(std::vector<T>& vec, T elem){
@@ -71,6 +74,12 @@ class DriveChain {
     void move(int speed);
     void moveLeftSide(int speed);
     void moveRightSide(int speed);
+
+    void moveByTiles(double tiles);
+    void rotate(int degrees);
+
+    void moveRightSideAbs(double distance);
+    void moveLeftSideAbs(double distance);
   private:
     ExtendedMotor leftBack = ExtendedMotor(11, Gearset::green_18, false,
                                            EncoderUnits::rotations);
@@ -114,15 +123,19 @@ class Arm {
     void intake();
     void outtake();
 
-    void armStop();
+    void armHold();
     void intakeStop();
+
+    void update();
   private:
     ExtendedMotor intakeMotorLeft = ExtendedMotor(6, Gearset::green_18, false,
                                               EncoderUnits::rotations);
     ExtendedMotor intakeMotorRight = ExtendedMotor(7, Gearset::green_18, true,
                                               EncoderUnits::rotations);
     ExtendedMotor armMotor = ExtendedMotor(2, Gearset::red_36, false,
-                                              EncoderUnits::rotations);
+                                              EncoderUnits::degrees);
+    double targetPos;
+    Mode mode = Mode::manual;
 };
 
 class Robot {
@@ -138,7 +151,7 @@ class Robot {
     void handleControls(std::vector <DigitalControls> digitalControls,
                         Analog joysticks);
     void tankControls(int leftJoystickY, int rightJoystickY);
-  private:
+
     DriveChain driveChain = DriveChain();
     Stacker stacker = Stacker();
     Arm arm = Arm();

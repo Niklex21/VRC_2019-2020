@@ -104,21 +104,41 @@ void DriveChain::move(int speed){
   this->moveRightSide(speed);
 }
 
+void DriveChain::moveLeftSideAbs(double distance){
+  this->leftBack.move_absolute(distance, 200);
+  this->leftFront.move_absolute(distance, 200);
+}
+
+void DriveChain::moveRightSideAbs(double distance){
+  this->rightBack.move_absolute(distance, 200);
+  this->rightFront.move_absolute(distance, 200);
+}
+
+void DriveChain::moveByTiles(double tiles){
+  this->moveLeftSideAbs(tiles*TILE_CONSTANT);
+  this->moveRightSideAbs(tiles*TILE_CONSTANT);
+}
+
+void DriveChain::rotate(int degrees){
+  this->moveLeftSideAbs(-degrees*ROTATION_CONSTANT);
+  this->moveRightSideAbs(degrees*ROTATION_CONSTANT);
+}
+
 // --------- extended_pros::Stacker::functions ------ //
 void Stacker::stack(){
   // TODO Stack code using sensors
   this->stackerCond = StackerCondition::stacking;
-  this->targetPos = this->STACK_POS;
-  // this->stackerMotor.set_brake_mode(MOTOR_BRAKE_HOLD);
-  // this->stackerMotor.move_absolute(70, 5);
+  // this->targetPos = this->STACK_POS;
+  this->stackerMotor.set_brake_mode(MOTOR_BRAKE_HOLD);
+  this->stackerMotor.move_absolute(70, 5);
 }
 
 void Stacker::retract(){
   // TODO Retract code using sensors
   this->stackerCond = StackerCondition::retracted;
-  this->targetPos = this->RETRACT_POS;
-  // this->stackerMotor.set_brake_mode(MOTOR_BRAKE_HOLD);
-  // this->stackerMotor.move_absolute(0, 5);
+  // this->targetPos = this->RETRACT_POS;
+  this->stackerMotor.set_brake_mode(MOTOR_BRAKE_HOLD);
+  this->stackerMotor.move_absolute(0, 5);
 }
 
 void Stacker::switchStacker(){
@@ -149,11 +169,13 @@ int Stacker::getPotentiometerValue(){
 // --------- extended_pros::Arm::functions ---------- //
 void Arm::up(){
   // Code for up
+  this->mode = Mode::manual;
   this->armMotor.move_velocity(100);
 }
 
 void Arm::down(){
   // Code for down
+  this->mode = Mode::manual;
   this->armMotor.move_velocity(-40);
 }
 
@@ -169,9 +191,14 @@ void Arm::outtake(){
   this->intakeMotorRight.move(-MAXIMUM_SPEED_UN);
 }
 
-void Arm::armStop(){
+void Arm::armHold(){
+  std::cerr << "ArmHold activated\n";
+  this->armMotor.set_brake_mode(MOTOR_BRAKE_HOLD);
   this->armMotor.move(0);
-    this->armMotor.set_brake_mode(MOTOR_BRAKE_HOLD);
+  if (this->mode == Mode::manual){
+    this->mode = Mode::automatic;
+    this->targetPos = this->armMotor.get_position();
+  }
 }
 
 void Arm::intakeStop(){
@@ -179,7 +206,16 @@ void Arm::intakeStop(){
   this->intakeMotorRight.move(0);
 }
 
-
+void Arm::update(){
+  if (this->mode == Mode::automatic){
+    if (this->armMotor.get_position() - this->targetPos < -7){
+      this->armMotor.move_velocity(10);
+    }
+    else {
+      this->armMotor.move_velocity(-5);
+    }
+  }
+}
 // --------- extended_pros::Robot::functions -------- //
 void Robot::handleControls(std::vector<DigitalControls> digitalControls,
                            Analog joysticks){
@@ -191,15 +227,17 @@ void Robot::handleControls(std::vector<DigitalControls> digitalControls,
   // Both are hold
   if (isInVector(digitalControls, DigitalControls::r1)){
     this->arm.up();
+    this->stacker.stack();
   }
-  else if (isInVector(digitalControls, DigitalControls::l1)){
+  else if (isInVector(digitalControls, DigitalControls::r2)){
     this->arm.down();
+    this->stacker.retract(); // Because rubber bands can get off
   }
   else {
-    this->arm.armStop();
+    this->arm.armHold();
   }
 
-  if (isInVector(digitalControls, DigitalControls::r2)){
+  if (isInVector(digitalControls, DigitalControls::l1)){
     this->arm.intake();
   }
   else if (isInVector(digitalControls, DigitalControls::l2)){
@@ -214,8 +252,8 @@ void Robot::handleControls(std::vector<DigitalControls> digitalControls,
     this->stacker.switchStacker();
   }
 
-  this->stacker.update();
-
+  //this->stacker.update();
+  this->arm.update();
 }
 
 void Robot::tankControls(int leftJoystickY, int rightJoystickY){
