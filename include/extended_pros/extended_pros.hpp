@@ -87,7 +87,7 @@ class DriveChain {
                                           EncoderUnits::rotations);
     ExtendedMotor leftFront = ExtendedMotor(1, Gearset::green_18, false,
                                            EncoderUnits::rotations);
-    ExtendedMotor rightFront = ExtendedMotor(10, Gearset::green_18, true,
+    ExtendedMotor rightFront = ExtendedMotor(8, Gearset::green_18, true,
                                            EncoderUnits::rotations);
 };
 
@@ -100,6 +100,11 @@ class Stacker {
     void switchStacker();
 
     void update();
+
+    void moveTo(double position, int speed);
+
+    void enableHold();
+    void disableHold();
 
     int getPotentiometerValue();
     StackerCondition stackerCond = StackerCondition::retracted;
@@ -125,6 +130,8 @@ class Arm {
 
     void armHold();
     void armStop();
+
+    double getPosition();
 
     void update();
   private:
@@ -175,6 +182,12 @@ class Robot {
     void retract();
 
     void switchStacker();
+
+    void armUp();
+    void armDown();
+    void armStop();
+
+    void defaultState();
 
     bool stacking = false;
     bool retracting = false;

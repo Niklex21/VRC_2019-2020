@@ -142,7 +142,13 @@ void Stacker::stack(int speed){
   this->stackerCond = StackerCondition::stacking;
   // this->targetPos = this->STACK_POS;
   this->stackerMotor.set_brake_mode(MOTOR_BRAKE_HOLD);
-  this->stackerMotor.move_absolute(480, speed);
+  this->stackerMotor.move_absolute(760, speed);
+}
+
+void Stacker::moveTo(double position, int speed){
+  this->stackerCond = StackerCondition::stacking;
+  this->stackerMotor.set_brake_mode(MOTOR_BRAKE_HOLD);
+  this->stackerMotor.move_absolute(std::max(100.00, std::min(position*760, 380.00)), speed);
 }
 
 void Stacker::retract(int speed){
@@ -155,11 +161,19 @@ void Stacker::retract(int speed){
 
 void Stacker::switchStacker(){
   if (this->stackerCond == StackerCondition::retracted){
-    this->stack(30);
+    this->stack(50);
   }
   else {
-    this->retract(30);
+    this->retract(50);
   }
+}
+
+void Stacker::enableHold(){
+  this->stackerMotor.set_brake_mode(MOTOR_BRAKE_HOLD);
+}
+
+void Stacker::disableHold(){
+  this->stackerMotor.set_brake_mode(MOTOR_BRAKE_COAST);
 }
 
 void Stacker::update(){
@@ -188,12 +202,17 @@ void Arm::up(){
 void Arm::down(){
   // Code for down
   this->mode = Mode::manual;
-  this->armMotor.move_velocity(-80);
+  this->armMotor.move_velocity(-100);
 }
 
 void Arm::armStop(){
   this->armMotor.set_brake_mode(MOTOR_BRAKE_HOLD);
   this->armMotor.move_velocity(0);
+}
+
+double Arm::getPosition(){
+  // Return it in percent
+  return this->armMotor.get_position() / 1097;
 }
 
 void Arm::armHold(){
@@ -219,28 +238,45 @@ void Arm::update(){
 
 void Intake::intake(int percent){
   // Code for intake
+  this->intakeMotorLeft.set_brake_mode(MOTOR_BRAKE_HOLD);
+  this->intakeMotorRight.set_brake_mode(MOTOR_BRAKE_HOLD);
+
   this->intakeMotorLeft.move(MAXIMUM_SPEED_UN*percent/100);
   this->intakeMotorRight.move(MAXIMUM_SPEED_UN*percent/100);
 }
 
 void Intake::outtake(int percent){
   // Code for outtake
+  this->intakeMotorLeft.set_brake_mode(MOTOR_BRAKE_HOLD);
+  this->intakeMotorRight.set_brake_mode(MOTOR_BRAKE_HOLD);
+
   this->intakeMotorLeft.move(-MAXIMUM_SPEED_UN*percent/100);
   this->intakeMotorRight.move(-MAXIMUM_SPEED_UN*percent/100);
 }
 
 void Intake::intakeStop(){
+  this->intakeMotorLeft.set_brake_mode(MOTOR_BRAKE_HOLD);
+  this->intakeMotorRight.set_brake_mode(MOTOR_BRAKE_HOLD);
+
   this->intakeMotorLeft.move(0);
   this->intakeMotorRight.move(0);
 }
 
 void Intake::stackOuttake(){
+  this->intakeMotorLeft.set_brake_mode(MOTOR_BRAKE_HOLD);
+  this->intakeMotorRight.set_brake_mode(MOTOR_BRAKE_HOLD);
+
   this->intakeMotorLeft.move(-10);
   this->intakeMotorRight.move(-10);
 }
 // --------- extended_pros::Robot::functions -------- //
 void Robot::handleControls(std::vector<DigitalControls> digitalControls,
                            Analog joysticks){
+
+  if (joysticks.left.y < 0 && joysticks.right.y < 0 && this->stacker.stackerCond == StackerCondition::stacking){
+    this->intake.outtake(20);
+  }
+
   this->tankControls(joysticks.left.y, joysticks.right.y);
 
   //this->intake.stacking = this->stacker.stackerCond == StackerCondition::stacking;
@@ -253,13 +289,13 @@ void Robot::handleControls(std::vector<DigitalControls> digitalControls,
   }
 
   if (isInVector(digitalControls, DigitalControls::r1)){
-    this->arm.up();
+    this->armUp();
   }
   else if (isInVector(digitalControls, DigitalControls::r2)){
-    this->arm.down();
+    this->armDown();
   }
   else {
-    this->arm.armStop();
+    this->armStop();
   }
 
   if (isInVector(digitalControls, DigitalControls::l1)){
@@ -278,10 +314,10 @@ void Robot::handleControls(std::vector<DigitalControls> digitalControls,
   }
 
   // For Debug
-  if (isInVector(digitalControls, DigitalControls::left_np) &&
-      isInVector(digitalControls, DigitalControls::up_np)){
-    autonomous();
-  }
+  // if (isInVector(digitalControls, DigitalControls::left_np) &&
+  //     isInVector(digitalControls, DigitalControls::up_np)){
+  //   autonomous();
+  // }
 }
 
 void Robot::tankControls(int leftJoystickY, int rightJoystickY){
@@ -293,24 +329,24 @@ void Robot::unfold(){
   this->stacker.stack(200);
   this->intake.outtake(100);
   pros::delay(1200);
-  this->stacker.retract(50);
-  this->intake.intake(100);
+  this->stacker.retract(60);
   pros::delay(1000);
+  this->intake.intakeStop();
 }
 
 void Robot::stack(){
   // this->intake.outtake(30);
   this->stacking = true;
-  this->stacker.stack(40);
-  pros::delay(3000);
-  this->driveChain.moveByTiles(0.1);
-  pros::delay(500);
+  this->intake.outtake(10);
+  this->stacker.stack(60);
+  pros::delay(2500);
+  // this->driveChain.moveByTile
 }
 
 void Robot::retract(){
   this->intake.intake(30);
   this->retracting = true;
-  this->stacker.retract(40);
+  this->stacker.retract(60);
 }
 
 void Robot::switchStacker(){
@@ -320,4 +356,24 @@ void Robot::switchStacker(){
   else {
     this->stack();
   }
+}
+
+void Robot::armUp(){
+  this->stacker.disableHold();
+  this->arm.up();
+}
+
+void Robot::armDown(){
+  this->stacker.disableHold();
+  this->arm.down();
+}
+
+void Robot::armStop(){
+  this->arm.armStop();
+  this->stacker.enableHold();
+}
+
+void Robot::defaultState(){
+  this->armDown();
+  this->intake.intakeStop();
 }

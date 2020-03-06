@@ -15,37 +15,105 @@
  * from where it left off.
  */
 void autonomous() {
-  int teamColor = 1; // 1 for red, -1 for blue
+  int teamColor = -1; // 1 for red, -1 for blue
   extended_pros::Robot robot = extended_pros::Robot();
 
-  robot.unfold();
+  // robot.unfold();
 
   robot.intake.intakeStop();
   pros::delay(200);
 
-  robot.intake.intake(85);
+  robot.intake.intake(90);
 
-  robot.driveChain.moveByTiles(2.05);
+  // robot.arm.down();
+  //
+  // pros::delay(1000);
+  //
+  // robot.arm.armStop();
+
+  robot.driveChain.moveByTiles(2.00);
 
   robot.intake.intakeStop();
   pros::delay(200);
 
-  robot.driveChain.moveByTiles(-1.05);
+  // robot.arm.up();
+  // pros::delay(200);
+  // robot.arm.armStop();
+  // pros::delay(200);
+
+  robot.driveChain.moveByTiles(-1.00);
 
   robot.driveChain.rotate(-135);
-  pros::delay(2000);
+  pros::delay(1300);
 
-  robot.driveChain.moveByTiles(0.70);
+  robot.driveChain.moveByTiles(0.9);
 
   robot.stack();
+  robot.intake.outtake(10);
+
+  robot.driveChain.moveByTiles(0.05);
 
   robot.driveChain.moveByTiles(-1);
 
+  robot.intake.intakeStop();
+  pros::delay(200);
+
+  robot.intake.intake(90);
+
   robot.retract();
-  pros::delay(1000);
+
+  robot.driveChain.rotate(-160);
+  pros::delay(1800);
+
+  robot.intake.intake(90);
+
+  robot.driveChain.moveByTiles(1.05);
 
   robot.intake.intakeStop();
+
+  robot.driveChain.moveByTiles(-0.65);
+
+  robot.driveChain.rotate(-130);
+  pros::delay(1300);
+
+  robot.armUp();
+  pros::delay(2200);
+
+  robot.arm.armStop();
+
+  robot.driveChain.moveByTiles(0.65);
+
+  robot.intake.outtake(70);
+  pros::delay(1000);
+
+  robot.driveChain.moveByTiles(-1);
+
+  robot.defaultState();
+  pros::delay(1000);
+
+  robot.driveChain.rotate(90);
+  pros::delay(1200);
+
+  robot.intake.intake(90);
+
+  robot.driveChain.moveByTiles(1.5);
+
+  robot.driveChain.moveByTiles(-0.5);
+
+  robot.armUp();
+  pros::delay(2000);
+
+  robot.arm.armStop();
   pros::delay(500);
+
+  robot.driveChain.moveByTiles(0.2);
+
+  robot.intake.outtake(70);
+  pros::delay(1000);
+
+  robot.driveChain.moveByTiles(-1);
+
+  robot.defaultState();
 
   // robot.driveChain.moveByTiles(1.2);
   // pros::delay(2000);
